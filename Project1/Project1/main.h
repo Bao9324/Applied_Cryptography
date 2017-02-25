@@ -38,4 +38,6 @@ map<char, int> avg_freqencies = {
 map<char, int[]> key;
 
 vector<int> split_cipher(string cipher);
-map<int, int> map_frequency(vector<int> cipher);
+vector<char> get_letters(int freq=0);
+map<int, vector<int>> map_positions(vector<int> cipher);
+map<char, vector<int>> map_positions(string word);
