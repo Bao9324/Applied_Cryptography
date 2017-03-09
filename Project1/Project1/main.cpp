@@ -1,5 +1,6 @@
 #include "main.h"
 int main(int argc, char const *argv[]) {
+	
 	string cipher;
 	cout << "Enter the ciphertext: ";
 	cin >> cipher;
@@ -7,18 +8,13 @@ int main(int argc, char const *argv[]) {
 	vector<int> result = split_cipher(cipher);
 	map<char, vector<int>> positions = map_positions("ABACACAASDB");
 
-	for (pair<char, vector<int>> num : positions) {
-		cout << num.first << ": ";
-		for (int pos : num.second)
-			cout << pos << " ";
-		cout << endl;
-	}
 
 	vector<char> one = get_letters(2);
-	for (char c : one)
+	for (const char &c : one)
 		cout << c << endl;
 
-	cin >> cipher;
+	test1(result);
+
 	return 0;
 }
 
@@ -41,7 +37,7 @@ vector<int> split_cipher(string cipher) {
 // returns letters with frequency equal to freq (all letters if freq = 0)
 vector<char> get_letters(int freq) {
 	vector<char> v;
-	for (pair<char, int> i : avg_freqencies)
+	for (const pair<char, int> &i : avg_freqencies)
 		if (i.second == freq || freq <= 0)
 			v.push_back(i.first);
 
@@ -52,7 +48,7 @@ vector<char> get_letters(int freq) {
 map<int, vector<int>> map_positions(vector<int> cipher) {
 	map<int, vector<int>> m;
 
-	for (int i = 0; i < cipher.size(); i++)
+	for (unsigned int i = 0; i < cipher.size(); i++)
 		m[cipher[i]].push_back(i);
 
 	return m;
@@ -61,8 +57,36 @@ map<int, vector<int>> map_positions(vector<int> cipher) {
 // returns mapping of characters in plaintext
 map<char, vector<int>> map_positions(string word) {
 	map<char, vector<int>> m;
-	for (int i = 0; i < word.size(); i++)
+	for (unsigned int i = 0; i < word.size(); i++)
 		m[word[i]].push_back(i);
 
 	return m;
+}
+
+// returns plaintext guess
+string test1(vector<int> cipher) {
+	map<int, vector<int>> cipher_map = map_positions(cipher);
+	ifstream file;
+	file.open("plaintext_dictionary.txt");
+	string line;
+	while (getline(file, line)) {
+		// skip empty lines
+		if (line.length() <= 1) continue;
+		map<char, vector<int>> dict_map = map_positions(line);
+
+		// loop through plaintext positions
+		for (const pair<char, vector<int>> &p : dict_map) {
+			// plaintext positions (don't care about the actual characters)
+			const vector<int> &pp = p.second;
+			// loop through cipher positions
+			for (const pair<int, vector<int>> &c : cipher_map) {
+				// cipher positions (don't care about the number)
+				const vector<int> &cp = c.second;
+				if (pp == cp) {
+
+				}
+			}
+		}
+	}
+	return line;
 }

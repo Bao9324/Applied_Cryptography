@@ -1,6 +1,8 @@
 #pragma once
+#include <algorithm>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -35,9 +37,10 @@ map<char, int> avg_freqencies = {
 	pair<char, int>('x', 1),
 	pair<char, int>('y', 2),
 	pair<char, int>('z', 1)};
-map<char, int[]> key;
+//map<char, int[]> key;
 
 vector<int> split_cipher(string cipher);
 vector<char> get_letters(int freq=0);
 map<int, vector<int>> map_positions(vector<int> cipher);
 map<char, vector<int>> map_positions(string word);
+string test1(vector<int> cipher);

@@ -24,4 +24,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\english_words.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\plaintext_dictionary.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
