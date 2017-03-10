@@ -7,9 +7,20 @@ int main(int argc, char const *argv[]) {
 
 	vector<int> result = split_cipher(cipher);
 	map<int, vector<int>> positions = map_positions(result);
+	
+	for (const pair <int, vector<int>>& a : positions) {
+		cout << a.first;
+		for (int i = 0; i < a.second.size(); i++) {
+			cout << '\t' <<a.second[i];
+		}
+		cout << endl;
+	}
 
 	printf("My guess is %d\n", test1(positions));
 	cin >> cipher;
+
+
+
 	/*vector<char> one = get_letters(2);
 	for (const char &c : one)
 		cout << c << endl;
@@ -20,11 +31,11 @@ int main(int argc, char const *argv[]) {
 }
 bool checkPlaintexts(const vector<int>& positions) {
 	int i = 0;
-	int j = 0;
+	int j = 1;
 	while (j < positions.size()) {
 		int first = positions[i];
 		int second = positions[j];
-		if (validCandidatesSize == 1) return true;
+		if (validCandidatesSize <= 1) return true;
 		for (int i = 0; i != 5; i++) {
 			if (validCandidates[i] == nullptr) continue;
 			if (validCandidates[i][first] != validCandidates[i][second]) {
@@ -51,7 +62,7 @@ int test1(map<int, vector<int>>& cTPositions) {
 			}
 		}
 	}
-	return -1;
+	return validCandidatesSize+100;
 }
 
 // returns the cipher text as a vector
