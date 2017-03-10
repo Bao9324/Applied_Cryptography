@@ -51,5 +51,3 @@ int test1(map<int, vector<int>>& cTPositions);
 bool checkPlaintexts(const vector<int>& positions);
 vector<char> get_letters(int freq=0);
 map<int, vector<int>> map_positions(vector<int> cipher);
-/*map<char, vector<int>> map_positions(string word);
-string test1(vector<int> cipher);*/

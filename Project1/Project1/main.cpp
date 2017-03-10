@@ -1,68 +1,64 @@
 #include "main.h"
 int main(int argc, char const *argv[]) {
-	
 	string cipher;
 	cout << "Enter the ciphertext: ";
 	cin >> cipher;
+	cout << endl;
 
 	vector<int> result = split_cipher(cipher);
 	map<int, vector<int>> positions = map_positions(result);
-	
-	for (const pair <int, vector<int>>& a : positions) {
-		cout << a.first;
-		for (int i = 0; i < a.second.size(); i++) {
-			cout << '\t' <<a.second[i];
-		}
-		cout << endl;
-	}
 
-	printf("My guess is %d\n", test1(positions));
+	int plaintext = test1(positions);
+	// Prints guessed plaintext index
+	printf("My guess is: %i\n", plaintext + 1);
+
+	// Prints guessed plaintext
+	//printf("My guess is:\n%s\n", validCandidates[plaintext]);
 	cin >> cipher;
 
-
-
-	/*vector<char> one = get_letters(2);
-	for (const char &c : one)
-		cout << c << endl;
-
-	test1(result);
-	*/
 	return 0;
 }
-bool checkPlaintexts(const vector<int>& positions) {
-	int i = 0;
-	int j = 1;
-	while (j < positions.size()) {
-		int first = positions[i];
-		int second = positions[j];
-		if (validCandidatesSize <= 1) return true;
-		for (int i = 0; i != 5; i++) {
-			if (validCandidates[i] == nullptr) continue;
-			if (validCandidates[i][first] != validCandidates[i][second]) {
-				validCandidates[i] = nullptr;
-				validCandidatesSize--;
-			}
-		}
-		i++;
-		j++;
-	}
-	return false;
-}
+
+// returns index of plaintext. -1 if none.
 int test1(map<int, vector<int>>& cTPositions) {
+
+	// Checks keys with multiple positions 
 	for (const pair<int, vector<int>> &i : cTPositions) {
+		// ignore keys with only one position, they tell us nothing
 		if (i.second.size() > 1) {
+			// invalidate candidates until there is only one, then break
 			if (checkPlaintexts(i.second)) break;
 		}
 	}
 	if (validCandidatesSize == 1) {
 		for (int i = 0; i != 5; i++) {
 			if (validCandidates[i] == nullptr) continue;
-			else {
-				return i + 1;
+			else return i;
+		}
+	}
+	return -1; // No valid plaintext found
+}
+
+bool checkPlaintexts(const vector<int>& positions) {
+	for (unsigned int i = 0; i + 1 < positions.size(); i++) {
+		// A valid candidate has been found or no more options
+		if (validCandidatesSize <= 1) return true;
+
+		// Indices of the matching characters
+		int first = positions[i], second = positions[i + 1];
+		for (unsigned int j = 0; j != 5; j++) {
+			// Skip candidates that has been invalidated from previous iterations
+			if (validCandidates[j] == nullptr) continue;
+
+			// if the characters from the plaintext are not equal 
+			// in the cipher positions then it's invalid
+			if (validCandidates[j][first] != validCandidates[j][second]) {
+				validCandidates[j] = nullptr;
+				validCandidatesSize--;
 			}
 		}
 	}
-	return validCandidatesSize+100;
+	return false;
 }
 
 // returns the cipher text as a vector
@@ -98,44 +94,14 @@ map<int, vector<int>> map_positions(vector<int> cipher) {
 	for (unsigned int i = 0; i < cipher.size(); i++)
 		m[cipher[i]].push_back(i);
 
-	return m;
-}
-/*
-// returns mapping of characters in plaintext
-map<char, vector<int>> map_positions(string word) {
-	map<char, vector<int>> m;
-	for (unsigned int i = 0; i < word.size(); i++)
-		m[word[i]].push_back(i);
-
-	return m;
-}
-*/
-/*
-// returns plaintext guess
-string test1(vector<int> cipher) {
-	map<int, vector<int>> cipher_map = map_positions(cipher);
-	ifstream file;
-	file.open("plaintext_dictionary.txt");
-	string line;
-	while (getline(file, line)) {
-		// skip empty lines
-		if (line.length() <= 1) continue;
-		map<char, vector<int>> dict_map = map_positions(line);
-
-		// loop through plaintext positions
-		for (const pair<char, vector<int>> &p : dict_map) {
-			// plaintext positions (don't care about the actual characters)
-			const vector<int> &pp = p.second;
-			// loop through cipher positions
-			for (const pair<int, vector<int>> &c : cipher_map) {
-				// cipher positions (don't care about the number)
-				const vector<int> &cp = c.second;
-				if (pp == cp) {
-
-				}
-			}
+	// prints positions (debugging)
+	/*for (const pair <int, vector<int>> &a : m) {
+		cout << a.first << ": ";
+		for (unsigned int i = 0; i < a.second.size(); i++) {
+			cout << a.second[i] << " ";
 		}
-	}
-	return line;
+		cout << endl;
+	}*/
+
+	return m;
 }
-*/
