@@ -6,16 +6,52 @@ int main(int argc, char const *argv[]) {
 	cin >> cipher;
 
 	vector<int> result = split_cipher(cipher);
-	map<char, vector<int>> positions = map_positions("ABACACAASDB");
+	map<int, vector<int>> positions = map_positions(result);
 
-
-	vector<char> one = get_letters(2);
+	printf("My guess is %d\n", test1(positions));
+	cin >> cipher;
+	/*vector<char> one = get_letters(2);
 	for (const char &c : one)
 		cout << c << endl;
 
 	test1(result);
-
+	*/
 	return 0;
+}
+bool checkPlaintexts(const vector<int>& positions) {
+	int i = 0;
+	int j = 0;
+	while (j < positions.size()) {
+		int first = positions[i];
+		int second = positions[j];
+		if (validCandidatesSize == 1) return true;
+		for (int i = 0; i != 5; i++) {
+			if (validCandidates[i] == nullptr) continue;
+			if (validCandidates[i][first] != validCandidates[i][second]) {
+				validCandidates[i] = nullptr;
+				validCandidatesSize--;
+			}
+		}
+		i++;
+		j++;
+	}
+	return false;
+}
+int test1(map<int, vector<int>>& cTPositions) {
+	for (const pair<int, vector<int>> &i : cTPositions) {
+		if (i.second.size() > 1) {
+			if (checkPlaintexts(i.second)) break;
+		}
+	}
+	if (validCandidatesSize == 1) {
+		for (int i = 0; i != 5; i++) {
+			if (validCandidates[i] == nullptr) continue;
+			else {
+				return i + 1;
+			}
+		}
+	}
+	return -1;
 }
 
 // returns the cipher text as a vector
@@ -53,7 +89,7 @@ map<int, vector<int>> map_positions(vector<int> cipher) {
 
 	return m;
 }
-
+/*
 // returns mapping of characters in plaintext
 map<char, vector<int>> map_positions(string word) {
 	map<char, vector<int>> m;
@@ -62,7 +98,8 @@ map<char, vector<int>> map_positions(string word) {
 
 	return m;
 }
-
+*/
+/*
 // returns plaintext guess
 string test1(vector<int> cipher) {
 	map<int, vector<int>> cipher_map = map_positions(cipher);
@@ -90,3 +127,4 @@ string test1(vector<int> cipher) {
 	}
 	return line;
 }
+*/
