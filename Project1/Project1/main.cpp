@@ -10,11 +10,11 @@ int main(int argc, char const *argv[]) {
 
 	int plaintext = test1(positions);
 	// Prints guessed plaintext index
-	printf("My guess is: %i\n", plaintext + 1);
+	printf("My plaintext guess is: \n[%i] %s\n", plaintext + 1, validCandidates[plaintext]);
 
 	// Prints guessed plaintext
 	//printf("My guess is:\n%s\n", validCandidates[plaintext]);
-	cin >> cipher;
+	//cin >> cipher;
 
 	return 0;
 }
