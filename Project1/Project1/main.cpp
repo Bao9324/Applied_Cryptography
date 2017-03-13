@@ -12,8 +12,6 @@ int main(int argc, char const *argv[]) {
 	// Prints guessed plaintext index
 	printf("My guess is: %i\n", plaintext + 1);
 
-	// Prints guessed plaintext
-	//printf("My guess is:\n%s\n", validCandidates[plaintext]);
 	cin >> cipher;
 
 	return 0;
